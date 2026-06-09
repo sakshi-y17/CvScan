@@ -1,0 +1,7 @@
+{
+  "framework": "vite",
+  "public": true,
+  "cleanUrls": true,
+  "buildCommand": "cd Frontend && npm install && npm run build",
+  "outputDirectory": "Frontend/dist"
+}

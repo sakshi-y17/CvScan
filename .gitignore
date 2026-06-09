@@ -1,0 +1,31 @@
+# Virtual environments
+Backend/venv/
+Backend/.venv/
+venv/
+.venv/
+
+# Secrets and environment configurations
+Backend/.env
+.env
+
+# Database files
+Backend/cvscan.db
+*.db
+
+# Cache and compiled Python files
+__pycache__/
+*.pyc
+Backend/__pycache__/
+
+# Frontend Node dependencies
+Frontend/node_modules/
+node_modules/
+
+# Production builds
+Frontend/dist/
+dist/
+
+# IDE files
+.vscode/
+.idea/
+.gemini/
