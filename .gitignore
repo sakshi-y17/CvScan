@@ -10,6 +10,8 @@ Backend/.env
 
 # Database files
 Backend/cvscan.db
+Backend/instance/
+instance/
 *.db
 
 # Cache and compiled Python files

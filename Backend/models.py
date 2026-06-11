@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from flask_sqlalchemy import SQLAlchemy
 
 # Instantiate SQLAlchemy core object
@@ -19,4 +19,4 @@ class ResumeScan(db.Model):
     target_role = db.Column(db.String(255), nullable=False)
     overall_score = db.Column(db.Integer, nullable=False)
     raw_analysis = db.Column(db.Text, nullable=False)  # Serialized JSON payload from LLM
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))

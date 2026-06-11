@@ -17,7 +17,7 @@ from models import db, ResumeScan
 from schemas import ChatResponse, ScanResult
 
 
-GEMINI_MODEL = "gemini-3-flash-preview"
+GEMINI_MODEL = "gemini-2.5-flash"
 
 
 def get_genai_client():
@@ -105,11 +105,17 @@ def create_app():
     with app.app_context():
         db.create_all()
 
+    # Configure CORS origins from environment variable
+    cors_allowed_origins = os.environ.get(
+        "CORS_ALLOWED_ORIGINS",
+        "http://localhost:5173,http://127.0.0.1:5173"
+    ).split(",")
+
     CORS(
         app,
         resources={
             r"/api/v1/*": {
-                "origins": ["http://localhost:5173", "http://127.0.0.1:5173"]
+                "origins": cors_allowed_origins
             }
         },
     )
@@ -195,12 +201,26 @@ def create_app():
         # Generate collision-safe alphanumeric slug
         alphabet = string.ascii_letters + string.digits
         share_slug = None
+        max_attempts = 10
+        attempt = 0
         try:
-            while True:
+            while attempt < max_attempts:
                 candidate_slug = "".join(secrets.choice(alphabet) for _ in range(8))
                 if not ResumeScan.query.filter_by(share_slug=candidate_slug).first():
                     share_slug = candidate_slug
                     break
+                attempt += 1
+            
+            if not share_slug:
+                return (
+                    jsonify(
+                        {
+                            "status": "error",
+                            "message": "Failed to generate a unique share slug after multiple attempts.",
+                        }
+                    ),
+                    500,
+                )
 
             new_scan = ResumeScan(
                 share_slug=share_slug,
