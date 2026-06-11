@@ -165,7 +165,4 @@ The Node backend handles saving and retrieving chat history.
 
 ---
 
-## 🔒 Security Best Practices
 
-* **Never commit `.env` files.** They are explicitly listed in `.gitignore` to prevent credentials, database passwords, and API keys from leaking online.
-* Always use environment configuration templates (`.env.example`) to document needed keys for other developers.
